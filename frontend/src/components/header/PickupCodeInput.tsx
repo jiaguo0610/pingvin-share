@@ -6,9 +6,9 @@ import toast from "../../utils/toast.util";
 
 const useStyles = createStyles((theme) => ({
   input: {
-    width: 130,
+    width: 80,
     [theme.fn.largerThan("sm")]: {
-      width: 150,
+      width: 100,
     },
     "& input": {
       height: 32,
@@ -30,6 +30,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
     paddingRight: 10,
+    whiteSpace: "nowrap",
     userSelect: "none",
     color:
       theme.colorScheme === "dark"
@@ -39,6 +40,7 @@ const useStyles = createStyles((theme) => ({
       opacity: 0.6,
     },
   },
+
 }));
 
 const ALLOWED_RE = /[^a-zA-Z0-9_-]/g;
