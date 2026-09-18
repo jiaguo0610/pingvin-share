@@ -198,8 +198,8 @@ const Header = () => {
             <Text weight={600}>{config.get("general.appName")}</Text>
           </Group>
         </Link>
+        <PickupCodeInput />
         <Group spacing={5} className={classes.links}>
-          <PickupCodeInput />
           <Group>{items} </Group>
         </Group>
         <Burger
