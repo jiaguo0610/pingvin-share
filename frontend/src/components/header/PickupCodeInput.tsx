@@ -1,4 +1,4 @@
-import { Box, Group, TextInput, createStyles } from "@mantine/core";
+import { Box, createStyles } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -7,43 +7,43 @@ import shareService from "../../services/share.service";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    marginRight: theme.spacing.sm,
+    display: "flex",
+    alignItems: "stretch",
     border: "1px solid #e2e1f1",
     borderRadius: theme.radius.sm,
     overflow: "hidden",
+    width: "fit-content",
+    marginRight: theme.spacing.sm,
   },
   input: {
+    height: 29,
     width: 110,
     [theme.fn.largerThan("sm")]: {
-      width: 110,
+      width: 130,
     },
-    "& input": {
-      height: 29,
-      borderRadius: `0 ${theme.radius.sm} ${theme.radius.sm} 0`,
-      paddingLeft: theme.spacing.sm,
-      paddingRight: theme.spacing.sm,
-      backgroundColor: "#f7f7ee",
-      border: "none",
-      boxShadow: "inset 0 0 4px rgba(0, 0, 0, 0.13)",
-      fontSize: theme.fontSizes.sm,
-      "&:focus, &:focus-within": {
-        borderColor: "transparent",
-      },
+    border: "none",
+    outline: "none",
+    padding: "0 10px",
+    backgroundColor: "#f7f7ee",
+    boxShadow: "inset 0 0 4px rgba(0, 0, 0, 0.13)",
+    fontSize: theme.fontSizes.sm,
+    borderRadius: 0,
+    "&::placeholder": {
+      color: theme.colors.gray[5],
     },
   },
   action: {
-    cursor: "pointer",
-    fontSize: theme.fontSizes.sm,
-    fontWeight: 500,
-    padding: "0 12px",
-    whiteSpace: "nowrap",
-    userSelect: "none",
-    height: 29,
     display: "flex",
     alignItems: "center",
-    borderRadius: `${theme.radius.sm} 0 0 ${theme.radius.sm}`,
+    padding: "0 12px",
     backgroundColor: "#e2e1f1",
     color: "#463fa8",
+    fontSize: theme.fontSizes.sm,
+    fontWeight: 500,
+    cursor: "pointer",
+    whiteSpace: "nowrap",
+    userSelect: "none",
+    borderRadius: 0,
     "&:hover": {
       backgroundColor: "#d4d3eb",
     },
@@ -78,8 +78,8 @@ const PickupCodeInput = () => {
     return () => window.clearTimeout(timer);
   }, [router.pathname]);
 
-  const handleChange = (raw: string) => {
-    setValue(raw.replace(ALLOWED_RE, ""));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value.replace(ALLOWED_RE, ""));
   };
 
   const showError = () => {
@@ -136,23 +136,22 @@ const PickupCodeInput = () => {
   };
 
   return (
-    <Group spacing={0} className={classes.wrapper} noWrap>
-      <TextInput
+    <Box className={classes.wrapper}>
+      <input
         ref={inputRef}
         value={value}
-        onChange={(e) => handleChange(e.currentTarget.value)}
+        onChange={handleChange}
         onKeyDown={(e) => {
           if (e.key === "Enter") submit();
         }}
         placeholder="取件码"
-        size="xs"
         className={cx(classes.input, flashing && classes.shake)}
         aria-label="取件码"
       />
       <Box component="span" className={classes.action} onClick={submit}>
         取件
       </Box>
-    </Group>
+    </Box>
   );
 };
 
