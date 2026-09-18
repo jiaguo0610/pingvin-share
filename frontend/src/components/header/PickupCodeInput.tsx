@@ -1,7 +1,13 @@
 import { Box, createStyles } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type KeyboardEvent,
+} from "react";
 import { TbAlertTriangle } from "react-icons/tb";
 import shareService from "../../services/share.service";
 
@@ -78,7 +84,7 @@ const PickupCodeInput = () => {
     return () => window.clearTimeout(timer);
   }, [router.pathname]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value.replace(ALLOWED_RE, ""));
   };
 
@@ -141,7 +147,7 @@ const PickupCodeInput = () => {
         ref={inputRef}
         value={value}
         onChange={handleChange}
-        onKeyDown={(e) => {
+        onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter") submit();
         }}
         placeholder="取件码"
