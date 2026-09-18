@@ -198,9 +198,9 @@ const Header = () => {
             <Text weight={600}>{config.get("general.appName")}</Text>
           </Group>
         </Link>
-        <PickupCodeInput />
-        <Group spacing={5} className={classes.links}>
-          <Group>{items} </Group>
+        <Group spacing={5}>
+          <PickupCodeInput />
+          <Group className={classes.links}>{items}</Group>
         </Group>
         <Burger
           opened={opened}
