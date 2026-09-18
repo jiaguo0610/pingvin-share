@@ -1,25 +1,27 @@
-import { Text, TextInput, createStyles } from "@mantine/core";
+import { TextInput, createStyles } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import { TbAlertTriangle } from "react-icons/tb";
 import shareService from "../../services/share.service";
-import toast from "../../utils/toast.util";
 
 const useStyles = createStyles((theme) => ({
   input: {
-    width: 80,
+    width: 100,
     [theme.fn.largerThan("sm")]: {
       width: 100,
     },
     "& input": {
-      height: 32,
+      height: 30,
       borderRadius: theme.radius.sm,
       paddingLeft: theme.spacing.sm,
-      paddingRight: 42,
+      paddingRight: 0,
       backgroundColor:
         theme.colorScheme === "dark"
           ? theme.colors.dark[6]
           : theme.colors[theme.primaryColor][0],
       border: "1px solid transparent",
+      fontSize: theme.fontSizes.sm,
       "&:focus, &:focus-within": {
         borderColor: "transparent",
       },
@@ -28,19 +30,26 @@ const useStyles = createStyles((theme) => ({
   action: {
     cursor: "pointer",
     fontSize: theme.fontSizes.sm,
-    fontWeight: 500,
-    paddingRight: 10,
+    fontWeight: 600,
+    padding: "4px 10px",
     whiteSpace: "nowrap",
     userSelect: "none",
+    borderLeft: `1px solid ${
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[4]
+        : theme.colors[theme.primaryColor][2]
+    }`,
     color:
       theme.colorScheme === "dark"
         ? theme.colors.dark[0]
-        : theme.colors.gray[7],
+        : theme.colors[theme.primaryColor][7],
     "&:hover": {
-      opacity: 0.6,
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[5]
+          : theme.colors[theme.primaryColor][1],
     },
   },
-
 }));
 
 const ALLOWED_RE = /[^a-zA-Z0-9_-]/g;
@@ -63,6 +72,33 @@ const PickupCodeInput = () => {
     setValue(raw.replace(ALLOWED_RE, ""));
   };
 
+  const showError = () => {
+    showNotification({
+      icon: <TbAlertTriangle size={20} />,
+      color: "red",
+      radius: "md",
+      styles: {
+        root: {
+          backgroundColor:
+            "rgba(128, 128, 128, 0.85)",
+          border: "1px solid rgba(255, 0, 0, 0.3)",
+        },
+        title: {
+          color: "red",
+          fontSize: 18,
+          fontWeight: 700,
+        },
+        description: {
+          color: "#ff6b6b",
+          fontSize: 15,
+        },
+      },
+      title: "取件码无效",
+      message: "请检查后重新输入",
+      autoClose: 3000,
+    });
+  };
+
   const submit = async () => {
     const code = value.trim();
     if (!code || !/^[a-zA-Z0-9_-]+$/.test(code)) return;
@@ -73,7 +109,7 @@ const PickupCodeInput = () => {
       router.push(`/share/${encodeURIComponent(code)}`);
     } catch (e: any) {
       if (e?.response?.status === 404) {
-        toast.error("取件码无效");
+        showError();
       } else {
         setValue("");
         router.push(`/share/${encodeURIComponent(code)}`);
@@ -93,10 +129,11 @@ const PickupCodeInput = () => {
       size="xs"
       radius="sm"
       className={classes.input}
+      rightSectionWidth="auto"
       rightSection={
-        <Text className={classes.action} onClick={submit}>
+        <span className={classes.action} onClick={submit}>
           取件
-        </Text>
+        </span>
       }
       aria-label="取件码"
     />
