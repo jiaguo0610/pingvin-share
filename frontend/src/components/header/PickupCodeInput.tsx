@@ -8,6 +8,9 @@ import shareService from "../../services/share.service";
 const useStyles = createStyles((theme) => ({
   wrapper: {
     marginRight: theme.spacing.sm,
+    border: "1px solid #e2e1f1",
+    borderRadius: theme.radius.sm,
+    overflow: "hidden",
   },
   input: {
     width: 110,
@@ -15,8 +18,8 @@ const useStyles = createStyles((theme) => ({
       width: 110,
     },
     "& input": {
-      height: 30,
-      borderRadius: theme.radius.sm,
+      height: 29,
+      borderRadius: `0 ${theme.radius.sm} ${theme.radius.sm} 0`,
       paddingLeft: theme.spacing.sm,
       paddingRight: theme.spacing.sm,
       backgroundColor: "#f7f7ee",
@@ -32,17 +35,28 @@ const useStyles = createStyles((theme) => ({
     cursor: "pointer",
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
-    padding: "4px 12px",
+    padding: "0 12px",
     whiteSpace: "nowrap",
     userSelect: "none",
-    height: 30,
+    height: 29,
     display: "flex",
     alignItems: "center",
-    borderRadius: theme.radius.sm,
+    borderRadius: `${theme.radius.sm} 0 0 ${theme.radius.sm}`,
     backgroundColor: "#e2e1f1",
     color: "#463fa8",
     "&:hover": {
       backgroundColor: "#d4d3eb",
+    },
+  },
+  shake: {
+    animation: "pickupFlash 0.8s ease-in-out 2",
+  },
+  "@keyframes pickupFlash": {
+    "0%, 100%": {
+      backgroundColor: "#f7f7ee",
+    },
+    "50%": {
+      backgroundColor: "#ffcccc",
     },
   },
 }));
@@ -50,10 +64,11 @@ const useStyles = createStyles((theme) => ({
 const ALLOWED_RE = /[^a-zA-Z0-9_-]/g;
 
 const PickupCodeInput = () => {
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
+  const [flashing, setFlashing] = useState(false);
 
   useEffect(() => {
     if (router.pathname !== "/upload") return;
@@ -92,9 +107,19 @@ const PickupCodeInput = () => {
     });
   };
 
+  const flashEmpty = () => {
+    setFlashing(true);
+    inputRef.current?.focus();
+    window.setTimeout(() => setFlashing(false), 1800);
+  };
+
   const submit = async () => {
     const code = value.trim();
-    if (!code || !/^[a-zA-Z0-9_-]+$/.test(code)) return;
+    if (!code) {
+      flashEmpty();
+      return;
+    }
+    if (!/^[a-zA-Z0-9_-]+$/.test(code)) return;
 
     try {
       await shareService.getMetaData(code);
@@ -111,7 +136,7 @@ const PickupCodeInput = () => {
   };
 
   return (
-    <Group spacing={4} className={classes.wrapper} noWrap>
+    <Group spacing={0} className={classes.wrapper} noWrap>
       <TextInput
         ref={inputRef}
         value={value}
@@ -121,8 +146,7 @@ const PickupCodeInput = () => {
         }}
         placeholder="取件码"
         size="xs"
-        radius="sm"
-        className={classes.input}
+        className={cx(classes.input, flashing && classes.shake)}
         aria-label="取件码"
       />
       <Box component="span" className={classes.action} onClick={submit}>
