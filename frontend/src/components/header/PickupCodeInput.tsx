@@ -21,7 +21,10 @@ const useStyles = createStyles((theme) => ({
         : theme.colors.gray[7],
   },
   input: {
-    width: 170,
+    width: 130,
+    [theme.fn.largerThan("sm")]: {
+      width: 170,
+    },
     "& input": {
       height: 36,
       borderRadius: theme.radius.md,
