@@ -7,9 +7,9 @@ import shareService from "../../services/share.service";
 
 const useStyles = createStyles((theme) => ({
   input: {
-    width: 100,
+    width: 130,
     [theme.fn.largerThan("sm")]: {
-      width: 100,
+      width: 130,
     },
     "& input": {
       height: 30,
@@ -31,14 +31,18 @@ const useStyles = createStyles((theme) => ({
     cursor: "pointer",
     fontSize: theme.fontSizes.sm,
     fontWeight: 600,
-    padding: "4px 10px",
+    padding: "0 10px",
     whiteSpace: "nowrap",
     userSelect: "none",
-    borderLeft: `1px solid ${
+    height: 30,
+    display: "flex",
+    alignItems: "center",
+    backgroundColor:
       theme.colorScheme === "dark"
-        ? theme.colors.dark[4]
-        : theme.colors[theme.primaryColor][2]
-    }`,
+        ? theme.colors.dark[3]
+        : theme.white,
+    borderTopRightRadius: theme.radius.sm,
+    borderBottomRightRadius: theme.radius.sm,
     color:
       theme.colorScheme === "dark"
         ? theme.colors.dark[0]
@@ -46,8 +50,8 @@ const useStyles = createStyles((theme) => ({
     "&:hover": {
       backgroundColor:
         theme.colorScheme === "dark"
-          ? theme.colors.dark[5]
-          : theme.colors[theme.primaryColor][1],
+          ? theme.colors.dark[2]
+          : theme.colors.gray[1],
     },
   },
 }));
@@ -79,9 +83,7 @@ const PickupCodeInput = () => {
       radius: "md",
       styles: {
         root: {
-          backgroundColor:
-            "rgba(128, 128, 128, 0.85)",
-          border: "1px solid rgba(255, 0, 0, 0.3)",
+          backgroundColor: "#dddddd",
         },
         title: {
           color: "red",
@@ -89,7 +91,7 @@ const PickupCodeInput = () => {
           fontWeight: 700,
         },
         description: {
-          color: "#ff6b6b",
+          color: "#c0392b",
           fontSize: 15,
         },
       },
