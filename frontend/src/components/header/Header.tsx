@@ -20,6 +20,7 @@ import useTranslate from "../../hooks/useTranslate.hook";
 import Logo from "../Logo";
 import ActionAvatar from "./ActionAvatar";
 import NavbarShareMenu from "./NavbarShareMenu";
+import PickupCodeInput from "./PickupCodeInput";
 
 const HEADER_HEIGHT = 60;
 
@@ -198,6 +199,7 @@ const Header = () => {
           </Group>
         </Link>
         <Group spacing={5} className={classes.links}>
+          <PickupCodeInput />
           <Group>{items} </Group>
         </Group>
         <Burger
