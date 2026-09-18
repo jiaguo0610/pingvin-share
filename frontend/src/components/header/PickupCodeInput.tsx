@@ -7,23 +7,20 @@ import shareService from "../../services/share.service";
 
 const useStyles = createStyles((theme) => ({
   input: {
-    width: 130,
+    width: 110,
     [theme.fn.largerThan("sm")]: {
-      width: 130,
+      width: 110,
     },
     "& input": {
       height: 30,
       borderRadius: theme.radius.sm,
       paddingLeft: theme.spacing.sm,
       paddingRight: 0,
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors[theme.primaryColor][0],
-      border: "1px solid transparent",
+      backgroundColor: theme.colors.gray[0],
+      border: "2px solid #eeeeee",
       fontSize: theme.fontSizes.sm,
       "&:focus, &:focus-within": {
-        borderColor: "transparent",
+        borderColor: "#eeeeee",
       },
     },
   },
@@ -34,24 +31,15 @@ const useStyles = createStyles((theme) => ({
     padding: "0 10px",
     whiteSpace: "nowrap",
     userSelect: "none",
-    height: 30,
+    height: 26,
     display: "flex",
     alignItems: "center",
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[3]
-        : theme.white,
-    borderTopRightRadius: theme.radius.sm,
-    borderBottomRightRadius: theme.radius.sm,
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors[theme.primaryColor][7],
+    backgroundColor: theme.colors[theme.primaryColor][1],
+    borderTopRightRadius: 2,
+    borderBottomRightRadius: 2,
+    color: theme.colors[theme.primaryColor][7],
     "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[2]
-          : theme.colors.gray[1],
+      backgroundColor: theme.colors[theme.primaryColor][2],
     },
   },
 }));
