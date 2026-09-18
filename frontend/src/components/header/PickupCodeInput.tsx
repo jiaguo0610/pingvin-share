@@ -1,4 +1,4 @@
-import { TextInput, createStyles } from "@mantine/core";
+import { Box, Group, TextInput, createStyles } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -6,6 +6,9 @@ import { TbAlertTriangle } from "react-icons/tb";
 import shareService from "../../services/share.service";
 
 const useStyles = createStyles((theme) => ({
+  wrapper: {
+    marginRight: theme.spacing.sm,
+  },
   input: {
     width: 110,
     [theme.fn.largerThan("sm")]: {
@@ -15,31 +18,31 @@ const useStyles = createStyles((theme) => ({
       height: 30,
       borderRadius: theme.radius.sm,
       paddingLeft: theme.spacing.sm,
-      paddingRight: 0,
-      backgroundColor: theme.colors.gray[0],
-      border: "2px solid #eeeeee",
+      paddingRight: theme.spacing.sm,
+      backgroundColor: "#f7f7ee",
+      border: "none",
+      boxShadow: "inset 0 0 4px rgba(0, 0, 0, 0.13)",
       fontSize: theme.fontSizes.sm,
       "&:focus, &:focus-within": {
-        borderColor: "#eeeeee",
+        borderColor: "transparent",
       },
     },
   },
   action: {
     cursor: "pointer",
     fontSize: theme.fontSizes.sm,
-    fontWeight: 600,
-    padding: "0 10px",
+    fontWeight: 500,
+    padding: "4px 12px",
     whiteSpace: "nowrap",
     userSelect: "none",
-    height: 26,
+    height: 30,
     display: "flex",
     alignItems: "center",
-    backgroundColor: theme.colors[theme.primaryColor][1],
-    borderTopRightRadius: 2,
-    borderBottomRightRadius: 2,
-    color: theme.colors[theme.primaryColor][7],
+    borderRadius: theme.radius.sm,
+    backgroundColor: "#e2e1f1",
+    color: "#463fa8",
     "&:hover": {
-      backgroundColor: theme.colors[theme.primaryColor][2],
+      backgroundColor: "#d4d3eb",
     },
   },
 }));
@@ -108,25 +111,24 @@ const PickupCodeInput = () => {
   };
 
   return (
-    <TextInput
-      ref={inputRef}
-      value={value}
-      onChange={(e) => handleChange(e.currentTarget.value)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") submit();
-      }}
-      placeholder="取件码"
-      size="xs"
-      radius="sm"
-      className={classes.input}
-      rightSectionWidth="auto"
-      rightSection={
-        <span className={classes.action} onClick={submit}>
-          取件
-        </span>
-      }
-      aria-label="取件码"
-    />
+    <Group spacing={4} className={classes.wrapper} noWrap>
+      <TextInput
+        ref={inputRef}
+        value={value}
+        onChange={(e) => handleChange(e.currentTarget.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") submit();
+        }}
+        placeholder="取件码"
+        size="xs"
+        radius="sm"
+        className={classes.input}
+        aria-label="取件码"
+      />
+      <Box component="span" className={classes.action} onClick={submit}>
+        取件
+      </Box>
+    </Group>
   );
 };
 
