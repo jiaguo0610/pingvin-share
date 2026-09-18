@@ -23,7 +23,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ shturl.cc/xE }}
+          username: jiaguo0610
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
