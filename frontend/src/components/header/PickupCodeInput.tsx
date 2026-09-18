@@ -25,7 +25,7 @@ const useStyles = createStyles((theme) => ({
     height: 29,
     width: 80,
     [theme.fn.largerThan("sm")]: {
-      width: 110,
+      width: 80,
     },
     border: "none",
     outline: "none",
